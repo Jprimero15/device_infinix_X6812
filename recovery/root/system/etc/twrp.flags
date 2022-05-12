@@ -1,0 +1,36 @@
+# mount point       fstype    device                                            flags
+/boot               emmc      /dev/block/by-name/boot                           flags=flashimg;backup;slotselect
+/bootloader         emmc      /dev/block/by-name/lk                             flags=slotselect;backup
+/dtbo               emmc      /dev/block/by-name/dtbo                           flags=slotselect
+/logo	            emmc      /dev/block/by-name/logo                           flags=backup
+/persist            ext4      /dev/block/by-name/persist                        flags=backup
+/persistent         emmc      /dev/block/by-name/frp                            flags=backup
+/spmfw              emmc      /dev/block/by-name/spmfw                          flags=slotselect
+/tee                emmc      /dev/block/by-name/tee                            flags=slotselect
+/vbmeta             emmc      /dev/block/by-name/vbmeta                         flags=backup;flashimg;slotselect
+/expdb              emmc      /dev/block/by-name/expdb
+/metadata           ext4      /dev/block/by-name/md_udc
+/otp                emmc      /dev/block/by-name/otp
+/seccfg             emmc      /dev/block/by-name/seccfg
+/tranfs             ext4      /dev/block/by-name/tranfs
+
+
+# IMEI and modem related
+# below four partitions are ext4, but we are using only for backup so emmc
+/protect_f          emmc      /dev/block/by-name/protect1                       flags=backup
+/protect_s          emmc      /dev/block/by-name/protect2                       flags=backup
+/nvdata             emmc      /dev/block/by-name/nvdata                         flags=backup
+/nvcfg              emmc      /dev/block/by-name/nvcfg                          flags=backup
+/nvram              emmc      /dev/block/by-name/nvram                          flags=backup
+/proinfo            emmc      /dev/block/by-name/proinfo                        flags=backup
+
+# SUPER
+# below is logical partition from stock rom
+/system_bak         emmc      /dev/block/mapper/system                          flags=display="System (logical)";flashimg;backup;slotselect
+/vendor_bak         emmc      /dev/block/mapper/vendor                          flags=display="Vendor (logical)";flashimg;backup;slotselect
+/product_bak        emmc      /dev/block/mapper/product                         flags=display="Product (logical)";flashimg;backup;slotselect
+/system_ext_bak     emmc      /dev/block/mapper/system_ext                      flags=display="System Ext (logical)";flashimg;backup;slotselect
+
+# Removable
+/external_sd        auto      /dev/block/mmcblk0p1      /dev/block/mmcblk0      flags=storage;wipeingui;removable
+/usb-otg            auto      /dev/block/sdd1           /dev/block/sdd          flags=storage;wipeingui;removable
