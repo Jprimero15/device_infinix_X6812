@@ -1,8 +1,7 @@
 # For MTK DRM integration:
 service teei_daemon /system/bin/teei_daemon
-    class core
-    user system
-    group system
+    user root
+    group root
     disabled
     seclabel u:r:recovery:s0
 
