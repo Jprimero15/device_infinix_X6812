@@ -1,5 +1,4 @@
 # mount point       fstype    device                                            flags
-/boot               emmc      /dev/block/by-name/boot                           flags=flashimg;backup;slotselect
 /bootloader         emmc      /dev/block/by-name/lk                             flags=slotselect;backup
 /dtbo               emmc      /dev/block/by-name/dtbo                           flags=slotselect
 /logo	            emmc      /dev/block/by-name/logo                           flags=backup
@@ -9,7 +8,6 @@
 /tee                emmc      /dev/block/by-name/tee                            flags=slotselect
 /vbmeta             emmc      /dev/block/by-name/vbmeta                         flags=backup;flashimg;slotselect
 /expdb              emmc      /dev/block/by-name/expdb
-/metadata           ext4      /dev/block/by-name/md_udc
 /otp                emmc      /dev/block/by-name/otp
 /seccfg             emmc      /dev/block/by-name/seccfg
 /tranfs             ext4      /dev/block/by-name/tranfs
@@ -32,5 +30,5 @@
 /system_ext_bak     emmc      /dev/block/mapper/system_ext                      flags=display="System Ext (logical)";flashimg;backup;slotselect
 
 # Removable
-/external_sd        auto      /dev/block/mmcblk0p1      /dev/block/mmcblk0      flags=storage;wipeingui;removable
-/usb-otg            auto      /dev/block/sdd1           /dev/block/sdd          flags=storage;wipeingui;removable
+/external_sd        vfat      /dev/block/mmcblk1p1      /dev/block/mmcblk1      flags=storage;wipeingui;removable
+/usb-otg            vfat      /dev/block/sdd1           /dev/block/sdd          flags=storage;wipeingui;removable
