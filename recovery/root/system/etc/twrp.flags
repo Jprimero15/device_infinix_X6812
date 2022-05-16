@@ -12,7 +12,6 @@
 /seccfg             emmc      /dev/block/by-name/seccfg
 /tranfs             ext4      /dev/block/by-name/tranfs
 
-
 # IMEI and modem related
 # below four partitions are ext4, but we are using only for backup so emmc
 /protect_f          emmc      /dev/block/by-name/protect1                       flags=backup
@@ -30,5 +29,5 @@
 /system_ext_bak     emmc      /dev/block/mapper/system_ext                      flags=display="System Ext (logical)";flashimg;backup;slotselect
 
 # Removable
-/external_sd        vfat      /dev/block/mmcblk1p1      /dev/block/mmcblk1      flags=storage;wipeingui;removable
-/usb-otg            vfat      /dev/block/sdd1           /dev/block/sdd          flags=storage;wipeingui;removable
+/external_sd        auto      /dev/block/mmcblk1p1      /dev/block/mmcblk1      flags=storage;wipeingui;removable
+/usb-otg            vfat      /dev/block/sda1           /dev/block/sdd          flags=storage;wipeingui;removable
