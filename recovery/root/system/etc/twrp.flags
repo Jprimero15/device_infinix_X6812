@@ -1,5 +1,6 @@
 # mount point       fstype    device                                            flags
 /bootloader         emmc      /dev/block/by-name/lk                             flags=slotselect;backup
+/boot               emmc      /dev/block/by-name/boot                           flags=display="Boot";flashimg=1;backup=1;slotselect
 /dtbo               emmc      /dev/block/by-name/dtbo                           flags=slotselect
 /logo	            emmc      /dev/block/by-name/logo                           flags=backup
 /persist            ext4      /dev/block/by-name/persist                        flags=backup
