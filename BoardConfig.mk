@@ -134,6 +134,9 @@ TARGET_NO_RECOVERY := true
 TW_HAS_NO_RECOVERY_PARTITION := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
+# Hardware
+BOARD_USES_MTK_HARDWARE := true
+
 ## TWRP-Specific configuration
 TW_THEME := portrait_hdpi
 TW_DEVICE_VERSION := Jprimero15_build
