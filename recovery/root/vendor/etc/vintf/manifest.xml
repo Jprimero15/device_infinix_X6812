@@ -1,7 +1,7 @@
 <!--
     Input:
         manifest_isphal.xml
-        manifest_chipone.xml
+        manifest_silead.xml
         manifest_target_level_r.xml
         manifest_sensor_hidl_v2.xml
         manifest_audio.xml
@@ -11,10 +11,12 @@
         manifest_bgservice.xml
         manifest_wifi.xml
         manifest_videotelephony.xml
+        manifest_nfc.xml
         manifest_secure_element_dsds.xml
         manifest_mtkcodecservice.xml
         manifest_km4.xml
         manifest_tee.xml
+        manifest_trustonic.xml
         manifest_log.xml
         manifest_mdmonitor.xml
         manifest_aee.xml
@@ -166,6 +168,16 @@
         <fqname>@1.0::IMemtrack/default</fqname>
     </hal>
     <hal format="hidl">
+        <name>android.hardware.nfc</name>
+        <transport>hwbinder</transport>
+        <version>1.2</version>
+        <interface>
+            <name>INfc</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.2::INfc/default</fqname>
+    </hal>
+    <hal format="hidl">
         <name>android.hardware.radio</name>
         <transport>hwbinder</transport>
         <version>1.2</version>
@@ -277,16 +289,6 @@
             <instance>default</instance>
         </interface>
         <fqname>@1.1::IUsbGadget/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.fpsensor.hardware.fpsensorhidlsvc</name>
-        <transport>hwbinder</transport>
-        <version>2.0</version>
-        <interface>
-            <name>IFpsensorHidlSvc</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@2.0::IFpsensorHidlSvc/default</fqname>
     </hal>
     <hal format="hidl">
         <name>vendor.mediatek.hardware.aee</name>
@@ -576,6 +578,16 @@
         <fqname>@2.0::ISupplicant/default</fqname>
     </hal>
     <hal format="hidl">
+        <name>vendor.silead.hardware.fingerprintext</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>ISileadFingerprint</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.0::ISileadFingerprint/default</fqname>
+    </hal>
+    <hal format="hidl">
         <name>vendor.transsion.hardware.tranlog</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -594,6 +606,26 @@
             <instance>default</instance>
         </interface>
         <fqname>@1.0::ITranLogConfig/default</fqname>
+    </hal>
+    <hal format="hidl">
+        <name>vendor.trustonic.tee</name>
+        <transport>hwbinder</transport>
+        <version>1.1</version>
+        <interface>
+            <name>ITee</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.1::ITee/default</fqname>
+    </hal>
+    <hal format="hidl">
+        <name>vendor.trustonic.tee.tui</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>ITui</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.0::ITui/default</fqname>
     </hal>
     <sepolicy>
         <version>30.0</version>
