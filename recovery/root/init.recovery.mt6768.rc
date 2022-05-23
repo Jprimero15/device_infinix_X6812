@@ -1,7 +1,71 @@
+import /init.recovery.trustonic.rc
+
 on init
-    mkdir /mnt/vendor/persist
-    mount ext4 /dev/block/by-name/persist /mnt/vendor/persist rw
+    mkdir /mnt/vendor/persist 0700 root root
+    mount ext4 /dev/block/by-name/persist /mnt/vendor/persist
     export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/system/lib64/hw
+
+on fs
+    install_keyring
+    setprop crypto.ready 1
+
+service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service keystore_auth /system/bin/keystore_auth
+    oneshot
+    user system
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service keystore /system/bin/keystore /tmp/misc/keystore
+    user root
+    group root drmrpc readproc
+    disabled
+    seclabel u:r:recovery:s0
+
+service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service.trustonic
+    user root
+    group root drmrpc
+    disabled
+    seclabel u:r:recovery:s0
+
+on property:hwservicemanager.ready=true
+    start keymaster-4-0
+    start gatekeeper-1-0
+
+on property:ro.crypto.state=unsupported
+    stop mobicore
+    stop keymaster-4-0
+    stop gatekeeper-1-0
+    stop servicemanager
+    stop hwservicemanager
+
+on property:ro.crypto.state=unencrypted
+    stop mobicore
+    stop keymaster-4-0
+    stop gatekeeper-1-0
+    stop servicemanager
+    stop hwservicemanager
+
+on property:twrp.decrypt.done=true
+    stop mobicore
+    stop keymaster-4-0
+    stop gatekeeper-1-0
+    stop servicemanager
+    stop hwservicemanager
 
 on post-fs
     # Support A/B feature for EMMC boot region
@@ -23,94 +87,6 @@ on post-fs
     exec u:r:update_engine:s0 root root -- /system/bin/mtk_plpath_utils
     start mtk.plpath.utils.link
 
-on fs
-    install_keyring
-
-service keystore_auth /system/bin/keystore_auth
-    user system
-    group root
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-
-service keystore /system/bin/keystore /tmp/misc/keystore
-    user root
-    group root drmrpc readproc log
-    disabled
-    seclabel u:r:recovery:s0
-
-# Start Daemon (Registry directories should already be present)
-service mobicore /system/bin/mcDriverDaemon --P1 /mnt/vendor/persist/mcRegistry \
-    -r /vendor/app/mcRegistry/06090000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/020f0000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/05120000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/05120000000000000000000000000001.drbin \
-    -r /vendor/app/mcRegistry/020b0000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/05070000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/030b0000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/03100000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/030c0000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/40188311faf343488db888ad39496f9a.drbin \
-    -r /vendor/app/mcRegistry/090b0000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/0f5eed3c3b5a47afacca69a84bf0efad.drbin \
-    -r /vendor/app/mcRegistry/07060000000000000000000000007169.drbin \
-    -r /vendor/app/mcRegistry/08070000000000000000000000008270.drbin \
-    -r /vendor/app/mcRegistry/07407000000000000000000000000000.drbin \
-    -r /vendor/app/mcRegistry/9073f03a9618383bb1856eb3f990babd.drbin \
-    -r /vendor/app/mcRegistry/5020170115e016302017012521300000.drbin \
-    -r /vendor/app/mcRegistry/07090000000000000000000000000000.drbin
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
-    class main
-    user root
-    group root system
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-
-service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service.trustonic
-    user root
-    group root drmrpc
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-
-on property:vendor.sys.listener.registered=true
-    start gatekeeper-1-0
-    
-on property:hwservicemanager.ready=true
-    start keymaster-4-0
-    start gatekeeper-1-0
-   
-on property:ro.crypto.state=unsupported
-    stop mobicore
-    stop keymaster-4-0
-    stop gatekeeper-1-0
-    
-on property:ro.crypto.state=unencrypted
-    stop mobicore
-    stop keymaster-4-0
-    stop gatekeeper-1-0
-        
-on property:twrp.all.users.decrypted=true
-    stop mobicore
-    stop keymaster-4-0
-    stop gatekeeper-1-0
-
-on post-fs-data
-    mkdir /data/vendor_de 0770 system system
-    mkdir /data/vendor_de/0 0770 system system
-   
 on boot
     start boot-hal-1-1
     start health-hal-2-1
