@@ -76,7 +76,7 @@ BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 3
 # Dynamic Partitions
 BOARD_SUPER_PARTITION_SIZE := 7345774592
 BOARD_SUPER_PARTITION_GROUPS := main
-BOARD_MAIN_SIZE := 7341580288  # (BOARD_SUPER_PARTITION_SIZE - 4MB)
+BOARD_MAIN_SIZE := 7345774592
 BOARD_MAIN_PARTITION_LIST := system vendor product system_ext
 
 # Partitions size
@@ -110,10 +110,16 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 
 # Recovery modules
 TARGET_RECOVERY_DEVICE_MODULES += \
+    libhwbinder \
+    android.hardware.keymaster@4.0 \
+    android.hardware.gatekeeper@1.0 \
     libkeymaster4 \
     libpuresoftkeymasterdevice
 
-RECOVERY_LIBRARY_SOURCE_FILES += \
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libhwbinder.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster@4.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.gatekeeper@1.0.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
 
@@ -156,6 +162,8 @@ TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_FB2PNG := true
 TW_HAS_MTP := true
+TW_OVERRIDE_SYSTEM_PROPS := \
+    "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
 # Debug
 TWRP_INCLUDE_LOGCAT := true
