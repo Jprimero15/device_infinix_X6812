@@ -20,7 +20,7 @@ service mobicore /system/bin/mcDriverDaemon --P1 /mnt/vendor/persist/mcRegistry 
         -r /vendor/app/mcRegistry/07090000000000000000000000000000.drbin
         user root
         group root
-	priority -20
+        disabled
         seclabel u:r:recovery:s0
 
 # t-Drv naming
