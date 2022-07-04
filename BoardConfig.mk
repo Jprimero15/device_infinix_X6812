@@ -59,7 +59,7 @@ BOARD_KERNEL_IMAGE_NAME := Image.gz
 
 # AVB
 BOARD_AVB_ENABLE := true
-BOARD_AVB_VBMETA_SYSTEM := system product
+BOARD_AVB_VBMETA_SYSTEM := system system_ext product
 BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
@@ -78,7 +78,7 @@ BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 3
 BOARD_SUPER_PARTITION_SIZE := 7345774592
 BOARD_SUPER_PARTITION_GROUPS := main
 BOARD_MAIN_SIZE := 7341580288  # (BOARD_SUPER_PARTITION_SIZE - 4MB)
-BOARD_MAIN_PARTITION_LIST := system vendor product system_ext
+BOARD_MAIN_PARTITION_LIST := system system_ext vendor product
 
 # Partitions size
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -104,8 +104,6 @@ TARGET_COPY_OUT_SYSTEM_EXT = system_ext
 # Crypto
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
-
-# Metadata
 BOARD_USES_METADATA_PARTITION := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 
@@ -122,9 +120,9 @@ RECOVERY_LIBRARY_SOURCE_FILES += \
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 # Encryption
-PLATFORM_SECURITY_PATCH := 2127-12-31
+PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
-PLATFORM_VERSION := 127
+PLATFORM_VERSION := 16.1.0
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 # Recovery
@@ -148,6 +146,7 @@ TW_MAX_BRIGHTNESS := 2047
 TW_Y_OFFSET := 80
 TW_H_OFFSET := -80
 TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_EXCLUDE_NANO := true
 TW_EXCLUDE_TWRPAPP := true
 TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
@@ -155,8 +154,9 @@ TW_NO_SCREEN_BLANK := true
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
-TW_INCLUDE_FB2PNG := true
 TW_HAS_MTP := true
+TW_OVERRIDE_SYSTEM_PROPS := \
+    "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
 # Debug
 TWRP_INCLUDE_LOGCAT := true

@@ -81,6 +81,12 @@ PRODUCT_PACKAGES += \
     update_verifier \
     update_engine_sideload
 
+# HACK: Set vendor patch level
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.bootimage.build.date.utc=0 \
+    ro.build.date.utc=0 \
+    ro.vendor.build.security_patch=2099-12-31
+
 # OEM otacerts
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     $(LOCAL_PATH)/security/infinix
