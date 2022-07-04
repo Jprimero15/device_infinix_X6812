@@ -3,27 +3,6 @@ import /init.microtrust.rc
 on init
     export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/system/lib64/hw
 
-on post-fs
-    # Support A/B feature for EMMC boot region
-    wait /dev/block/mmcblk0boot0 2
-    symlink /dev/block/sda /dev/block/mmcblk0boot0
-    symlink /dev/block/sdb /dev/block/mmcblk0boot1
-    symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
-    symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
-    # Fix OF installer
-    symlink /dev/block/platform/bootdevice /dev/block/bootdevice
-
-    # Support A/B feature for combo emmc OTA update
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/platform/bootdevice/by-name/preloader_emmc_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_emmc_b
-
-    # Support A/B feature for combo emmc OTA update
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/by-name/preloader_emmc_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/by-name/preloader_emmc_b
-
-    exec u:r:update_engine:s0 root root -- /system/bin/mtk_plpath_utils
-    start mtk.plpath.utils.link
-
 on fs
     mkdir /mnt/vendor 0700 root root
     mkdir /mnt/vendor/protect_f 0700 root root
@@ -31,15 +10,6 @@ on fs
     mkdir /mnt/vendor/nvdata 0700 root root
     mkdir /mnt/vendor/nvcfg 0700 root root
     mkdir /mnt/vendor/persist 0700 root root
-    mount ext4 /dev/block/by-name/protect1 /mnt/vendor/protect_f
-    mount ext4 /dev/block/by-name/protect2 /mnt/vendor/protect_s
-    mount ext4 /dev/block/by-name/nvdata /mnt/vendor/nvdata
-    mount ext4 /dev/block/by-name/nvcfg /mnt/vendor/nvcfg
-    mount ext4 /dev/block/by-name/persist /mnt/vendor/persist
-    symlink /mnt/vendor/protect_f /vendor/protect_f
-    symlink /mnt/vendor/protect_s /vendor/protect_s
-    symlink /mnt/vendor/nvcfg /vendor/nvcfg
-    symlink /mnt/vendor/nvdata /vendor/nvdata
 
     install_keyring
 
@@ -98,6 +68,25 @@ on property:twrp.all.users.decrypted=true
     stop teei_daemon
     stop keymaster-4-0
     stop gatekeeper-1-0
+
+on post-fs
+    # Support A/B feature for EMMC boot region
+    symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
+    symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
+
+    # Fix OF installer
+    symlink /dev/block/platform/bootdevice /dev/block/bootdevice
+
+    # Support A/B feature for combo emmc OTA update
+    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/platform/bootdevice/by-name/preloader_emmc_a
+    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_emmc_b
+
+    # Support A/B feature for combo emmc OTA update
+    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/by-name/preloader_emmc_a
+    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/by-name/preloader_emmc_b
+
+    exec u:r:update_engine:s0 root root -- /system/bin/mtk_plpath_utils
+    start mtk.plpath.utils.link
    
 on boot
     start boot-hal-1-1
