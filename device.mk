@@ -8,6 +8,9 @@
 LOCAL_PATH := device/infinix/X6812B
 
 # A/B
+AB_OTA_UPDATER := true
+
+# A/B
 AB_OTA_PARTITIONS += \
     boot \
     dtbo \
