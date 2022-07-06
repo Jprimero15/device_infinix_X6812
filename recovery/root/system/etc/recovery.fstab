@@ -1,9 +1,9 @@
 #<src>                                                  <mnt_point>           <type>              <mnt_flags and options>                      <fs_mgr_flags
-system                                                  /system               ext4                ro                                           wait,slotselect,avb=vbmeta_system,logical,first_stage_mount,avb_keys=/avb/q-gsi.avbpubkey:/avb/r-gsi.avbpubkey:/avb/s-gsi.avbpubkey
-system_ext                                              /system_ext           ext4                ro                                           wait,slotselect,avb,logical,first_stage_mount
-vendor                                                  /vendor               ext4                ro                                           wait,slotselect,avb,logical,first_stage_mount
-product                                                 /product              ext4                ro                                           wait,slotselect,avb,logical,first_stage_mount
+system                                                  /system               ext4                rw                                           wait,slotselect,logical
+system_ext                                              /system_ext           ext4                rw                                           wait,slotselect,logical
+vendor                                                  /vendor               ext4                rw                                           wait,slotselect,logical
+product                                                 /product              ext4                rw                                           wait,slotselect,logical
 
-/dev/block/platform/bootdevice/by-name/md_udc           /metadata	      ext4	          noatime,nosuid,nodev,discard                 wait,check,formattable,first_stage_mount
+/dev/block/platform/bootdevice/by-name/md_udc           /metadata	      ext4	          noatime,nosuid,nodev,discard                 wait,check,formattable
 /dev/block/platform/bootdevice/by-name/userdata         /data                 f2fs                noatime,nosuid,nodev,discard,noflush_merge,reserve_root=134217,resgid=1065,inlinecrypt,tran_gc wait,check,formattable,quota,latemount,resize,reservedsize=128m,checkpoint=fs,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized,keydirectory=/metadata/vold/metadata_encryption
 /dev/block/platform/bootdevice/by-name/misc             /misc                 emmc                defaults                                     defaults
