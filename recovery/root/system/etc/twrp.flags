@@ -31,6 +31,12 @@
 /nvram              emmc      /dev/block/platform/bootdevice/by-name/nvram                  flags=display="Nvram";backup=1
 /proinfo            emmc      /dev/block/platform/bootdevice/by-name/proinfo                flags=display="Proinfo";backup=1
 
+# Dynamic Partitions ( A Slots )
+/product_a          emmc      /dev/block/mapper/product_a                                   flags=display="Product Image";backup=0;flashimg=1
+/system_a           emmc      /dev/block/mapper/system_a                                    flags=display="System Image";backup=0;flashimg=1
+/system_ext_a       emmc      /dev/block/mapper/system_ext_a                                flags=display="System_EXT Image";backup=0;flashimg=1
+/vendor_a           emmc      /dev/block/mapper/vendor_a                                    flags=display="Vendor Image";backup=0;flashimg=1
+
 # Removable
 /external_sd        auto      /dev/block/mmcblk1p1      /dev/block/mmcblk1                  flags=storage;wipeingui;removable
 /usb-otg            vfat      /dev/block/sda1           /dev/block/sdd                      flags=storage;wipeingui;removable
